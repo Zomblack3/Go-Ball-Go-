@@ -4,18 +4,14 @@ namespace GoBallGo
 {
 	void gameplay(SCREENS& currentScreen)
 	{
-		//Init
-		static Player player = initPlayer();
+		Player player = initPlayer();
 
-		static Wall wall[MAX_WALLS_IN_SCREEN] = {};
+		Wall wall[MAX_WALLS_IN_SCREEN] = {};
 
-		static Texture2D backGround = LoadTexture("res/img/pixel_art_gradas.png");
-		static Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
-		static Texture2D foreGround = LoadTexture("res/img/pixel_art_pasto.png");
-
-		static float scrollingBack = 0.0f;
-		static float scrollingMid = 0.0f;
-		static float scrollingFore = 0.0f;
+		Texture2D backGround = LoadTexture("res/img/pixel_art_gradas.png");
+		Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
+		Texture2D foreGround = LoadTexture("res/img/pixel_art_pasto.png");
+		player.texture = LoadTexture("res/img/player.png");
 
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 			wall[i] = initWall();
@@ -30,6 +26,9 @@ namespace GoBallGo
 		UnloadTexture(backGround);
 		UnloadTexture(midGround);
 		UnloadTexture(foreGround);
+		UnloadTexture(player.texture);
+
+		player.isAlive = true;
 	}
 }
 
@@ -64,6 +63,10 @@ namespace GameplayStructure
 
 	void draw(GoBallGo::Player& player, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround)
 	{
+		Vector2 bgPos = { };
+		Vector2 mgPos = { };
+		Vector2 fgPos = { };
+
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
@@ -71,16 +74,16 @@ namespace GameplayStructure
 		DrawTextureEx(backGround, { scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(backGround, { backGround.width * 2 + scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
 
-		DrawTextureEx(midGround, { scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(midGround, { scrollingMid, 1000 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 1000 }, 0.0f, 2.0f, WHITE);
 
 		DrawTextureEx(foreGround, { scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 
-		DrawRectangle(static_cast<int>(player.x), static_cast<int>(player.y), static_cast<int>(player.w), static_cast<int>(player.h), RED);
+		//DrawRectangle(static_cast<int>(player.x), static_cast<int>(player.y), static_cast<int>(player.w), static_cast<int>(player.h), RED);
+		DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
 		drawWall(wall);
 
-		//end Draw
 		EndDrawing();
 	}
 }

@@ -4,7 +4,6 @@ namespace GoBallGo
 {
 	void credits(SCREENS& currentScreen)
 	{
-		//Inits
 		Button exitButton = initButton(screenWidth / 2.0f, screenHeight - (screenHeight / 10), BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
 		
 		exitButton.x -= exitButton.w / 2.0f;

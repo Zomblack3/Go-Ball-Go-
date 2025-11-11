@@ -18,7 +18,6 @@ namespace GoBallGo
 		player.y = static_cast<float>(screenHeight) / 2.0f;
 		player.w = PLAYER_WIDTH;
 		player.h = PLAYER_HEIGHT;
-		player.speedY = MAX_PLAYER_SPEED;
 		player.jump = MAX_PLAYER_JUMP_FORCE;
 		player.isAlive = true;
 		player.currentPlayerLives = MAX_PLAYER_POINTS;
@@ -29,8 +28,7 @@ namespace GoBallGo
 
 	void playerMovment(Player& player)
 	{
-
-		if (IsKeyPressed(KEY_W))
+		if (IsKeyPressed(KEY_SPACE))
 			player.y -= player.jump * GetFrameTime();
 		else
 			player.y += G_FORCE * GetFrameTime();
