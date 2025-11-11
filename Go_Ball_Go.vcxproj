@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\game\credits.cpp" />
+    <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameplay.cpp" />
     <ClCompile Include="src\game\menu.cpp" />
     <ClCompile Include="src\game\windowManagment.cpp" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\credits.h" />
+    <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameplay.h" />
     <ClInclude Include="src\game\menu.h" />
     <ClInclude Include="src\game\windowManagment.h" />

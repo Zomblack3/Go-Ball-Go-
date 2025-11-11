@@ -12,10 +12,10 @@ namespace GoBallGo
 {
 	Player initPlayer()
 	{
-		Player player;
+		Player player = {} ;
 
-		player.x = screenWidth / 8;
-		player.y = screenHeight / 2;
+		player.x = static_cast<float>(screenWidth) / 8.0f;
+		player.y = static_cast<float>(screenHeight) / 2.0f;
 		player.w = PLAYER_WIDTH;
 		player.h = PLAYER_HEIGHT;
 		player.speedY = MAX_PLAYER_SPEED;
@@ -31,14 +31,9 @@ namespace GoBallGo
 	{
 
 		if (IsKeyPressed(KEY_W))
-		{
 			player.y -= player.jump * GetFrameTime();
-			cout << player.jump << endl;
-		}
 		else
-		{
 			player.y += G_FORCE * GetFrameTime();
-		}
 
 		player.jump -= G_FORCE * GetFrameTime();
 
@@ -54,13 +49,9 @@ namespace GoBallGo
 	void playerClamp(Player& player)
 	{
 		if (player.jump <= MAX_PLAYER_JUMP_FORCE)
-		{
 			player.jump = MAX_PLAYER_JUMP_FORCE;
-		}
-		
+
 		if (player.jump >= MAX_PLAYER_JUMP_FORCE)
-		{
 			player.jump = MAX_PLAYER_JUMP_FORCE;
-		}
 	}
 }

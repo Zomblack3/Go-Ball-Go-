@@ -6,12 +6,16 @@ using namespace std;
 
 namespace GoBallGo
 {
+	void mouseClick(Vector2& mouse)
+	{
+		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+			mouse = GetMousePosition();
+	}
+
 	void mouseSelection(Vector2 mousePos, Button& button)
 	{
 		if (isMouseInButton(mousePos, button))
-		{
 			button.isPressed = true;
-		}
 		else
 			button.isPressed = false;
 	}

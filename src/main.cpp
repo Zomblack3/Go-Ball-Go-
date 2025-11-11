@@ -1,10 +1,6 @@
-#include "game/menu.h"
-
-using namespace GoBallGo;
+#include "game/game.h"
 
 int main()
 {
-	openMenu();
-
-	return 0;
+	run::game();
 }

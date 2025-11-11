@@ -4,7 +4,7 @@ namespace GoBallGo
 {
     Button initButton(float x, float y, float w, float h, bool isPressed)
     {
-        Button newButton;
+        Button newButton = { };
 
         newButton.x = x;
         newButton.y = y;

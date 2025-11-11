@@ -51,6 +51,9 @@
     <ClCompile Include="src\game\credits.cpp">
       <Filter>Resource Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\game.cpp">
+      <Filter>Resource Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objects\player.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="src\game\credits.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\game.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
