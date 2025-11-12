@@ -38,12 +38,12 @@ namespace GoBallGo
 			player.isAlive = false;
 	}
 
-	void wallUpdate(Wall wall[], Player& player)
+	void wallUpdate(Wall wall[]/*, Player& player*/)
 	{
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 		{
 			wallMovement(wall[i]);
-			wallPlayerCollision(wall[i], player);
+			//wallPlayerCollision(wall[i], player);
 			changeRandomWall(wall[i]);
 			createTopWall(wall);
 		}

@@ -7,8 +7,8 @@ namespace GoBallGo
 	void menu(SCREENS& currentScreen)
 	{		
 		Button playButton = initButton(screenWidth / 2.0f, screenHeight / 6.0f, BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
-		Button creditsButton = initButton(screenWidth / 2.0f, screenHeight / 2.0f, BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
-		Button exitButton = initButton(screenWidth / 2.0f, screenHeight / 3.0f, BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
+		Button creditsButton = initButton(screenWidth / 2.0f, screenHeight / 3.0f, BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
+		Button exitButton = initButton(screenWidth / 2.0f, screenHeight / 2.0f, BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
 		
 		playButton.x -= playButton.w / 2.0f;
 		creditsButton.x -= creditsButton.w / 2.0f;

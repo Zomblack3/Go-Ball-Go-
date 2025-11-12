@@ -8,11 +8,12 @@
 #include "game/gameplay.h"
 
 using namespace std;
+
 namespace GoBallGo
 {
 	Player initPlayer()
 	{
-		Player player = {} ;
+		Player player = { };
 
 		player.x = static_cast<float>(screenWidth) / 8.0f;
 		player.y = static_cast<float>(screenHeight) / 2.0f;
@@ -26,17 +27,32 @@ namespace GoBallGo
 		return player;
 	}
 
-	void playerMovment(Player& player)
+	void playerMovment(Player& player, Player& player2)
 	{
-		if (IsKeyPressed(KEY_SPACE))
-			player.y -= player.jump * GetFrameTime();
-		else
-			player.y += G_FORCE * GetFrameTime();
+		if (player.isActive)
+		{
+			if (IsKeyPressed(KEY_SPACE))
+				player.y -= player.jump * GetFrameTime();
+			else
+				player.y += G_FORCE * GetFrameTime();
 
-		player.jump -= G_FORCE * GetFrameTime();
+			player.jump -= G_FORCE * GetFrameTime();
+		}
+
+		if (player2.isActive)
+		{
+			if (IsKeyPressed(KEY_W))
+				player2.y -= player2.jump * GetFrameTime();
+			else
+				player2.y += G_FORCE * GetFrameTime();
+
+			player2.jump -= G_FORCE * GetFrameTime();
+		}
 
 		playerClamp(player);
+		playerClamp(player2);
 	}
+
 	void playerScreenCollision(Player& player)
 	{
 		if (player.y <= 0.0f)
@@ -44,6 +60,7 @@ namespace GoBallGo
 		if (player.y + player.h >= GetScreenHeight())
 			player.isAlive = false;
 	}
+
 	void playerClamp(Player& player)
 	{
 		if (player.jump <= MAX_PLAYER_JUMP_FORCE)

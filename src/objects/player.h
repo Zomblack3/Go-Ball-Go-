@@ -13,6 +13,7 @@ namespace GoBallGo
 		float jump = 0.0f;
 		float jumpCicles = 0.0f;
 
+		bool isActive = false;
 		bool isAlive = true;
 		bool isJumping = false;
 		bool isWinner = false;
@@ -32,7 +33,7 @@ namespace GoBallGo
 
 	Player initPlayer();
 
-	void playerMovment(Player& player);
+	void playerMovment(Player& player, Player& player2);
 	void playerScreenCollision(Player& player);
 	void playerClamp(Player& player);
 }
