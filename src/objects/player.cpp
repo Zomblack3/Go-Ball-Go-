@@ -29,7 +29,7 @@ namespace GoBallGo
 
 	void playerMovment(Player& player, Player& player2)
 	{
-		if (player.isActive)
+		if (player.isActive && player.isAlive)
 		{
 			if (IsKeyPressed(KEY_SPACE))
 				player.y -= player.jump * GetFrameTime();
@@ -39,7 +39,7 @@ namespace GoBallGo
 			player.jump -= G_FORCE * GetFrameTime();
 		}
 
-		if (player2.isActive)
+		if (player2.isActive && player2.isAlive)
 		{
 			if (IsKeyPressed(KEY_W))
 				player2.y -= player2.jump * GetFrameTime();

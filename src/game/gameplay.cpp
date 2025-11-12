@@ -153,8 +153,13 @@ namespace GameplayStructure
 		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 
 		//DrawRectangle(static_cast<int>(player.x), static_cast<int>(player.y), static_cast<int>(player.w), static_cast<int>(player.h), RED);
-		DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
-		DrawTexture(player2.texture, static_cast<int>(player2.x), static_cast<int>(player2.y), RED);
+
+		if (player.isAlive)
+			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
+
+		if (player2.isAlive)
+			DrawTexture(player2.texture, static_cast<int>(player2.x), static_cast<int>(player2.y), RED);
+		
 		drawWall(wall);
 
 		EndDrawing();
