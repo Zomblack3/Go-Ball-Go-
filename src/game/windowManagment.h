@@ -14,7 +14,6 @@ enum SCREENS
 
 namespace GoBallGo
 {
-	void mouseClick(Vector2& mouse);
 	void mouseSelection(Vector2 mousePos, Button& button);
 	bool isMouseInButton(Vector2 mousePos, Button button);
 

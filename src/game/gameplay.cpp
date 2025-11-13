@@ -72,7 +72,7 @@ namespace GameplayStructure
 
 		while (!gameModeButtonSingleplayer.isPressed && !gameModeButtonMultiplayer.isPressed)
 		{
-			GoBallGo::mouseClick(mouse);
+			mouse = GetMousePosition();
 
 			GoBallGo::mouseSelection(mouse, gameModeButtonSingleplayer);
 			GoBallGo::mouseSelection(mouse, gameModeButtonMultiplayer);
@@ -154,10 +154,10 @@ namespace GameplayStructure
 
 		//DrawRectangle(static_cast<int>(player.x), static_cast<int>(player.y), static_cast<int>(player.w), static_cast<int>(player.h), RED);
 
-		if (player.isAlive)
+		if (player.isActive && player.isAlive)
 			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
 
-		if (player2.isAlive)
+		if (player2.isActive && player2.isAlive)
 			DrawTexture(player2.texture, static_cast<int>(player2.x), static_cast<int>(player2.y), RED);
 		
 		drawWall(wall);

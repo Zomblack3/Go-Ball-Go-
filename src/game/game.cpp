@@ -13,6 +13,8 @@ namespace run
 
 		InitWindow(GoBallGo::screenWidth, GoBallGo::screenHeight, "Go! Ball Go!");
 
+		InitAudioDevice();
+
 		while (!WindowShouldClose())
 		{
 			switch (currentScreen)
@@ -41,5 +43,7 @@ namespace run
 				break;
 			}
 		}
+
+		CloseAudioDevice();
 	}
 }

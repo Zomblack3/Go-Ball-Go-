@@ -25,7 +25,8 @@ namespace CreditsStructure
 {
 	void update(SCREENS& currentScreen, Vector2& mouse, GoBallGo::Button& exitButton)
 	{
-		GoBallGo::mouseClick(mouse);
+		mouse = GetMousePosition();
+
 		mouseSelection(mouse, exitButton);
 
 		if (exitButton.isPressed)
