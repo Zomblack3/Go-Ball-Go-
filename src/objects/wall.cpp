@@ -22,12 +22,14 @@ namespace GoBallGo
 		wall.x -= wall.speedX * GetFrameTime();
 	}
 
-	void changeRandomWall(Wall& wall)
+	void changeRandomWall(Wall& wall, int& lastWallPassed)
 	{
 		if (wall.x + wall.w <= 0.0f)
 		{
 			wall.x = static_cast<float>(GetScreenWidth());
 			wall.y = static_cast<float>(GetRandomValue(static_cast<int>(PLAYER_HEIGHT) * 2, GetScreenHeight()));
+
+			lastWallPassed = 0;
 		}
 	}
 
@@ -38,12 +40,27 @@ namespace GoBallGo
 			player.isAlive = false;
 	}
 
-	void wallUpdate(Wall wall[])
+	void wallPlayerHasPass(Wall wall[], Player& player, int& lastWallPassed)
+	{
+		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
+		{
+			if (i % 2 != 0 && i != lastWallPassed)
+			{
+				if (player.x > wall[i].x)
+				{
+					player.points++;
+					lastWallPassed = i;
+				}
+			}
+		}
+	}
+
+	void wallUpdate(Wall wall[], int& lastWallPassed)
 	{
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 		{
 			wallMovement(wall[i]);
-			changeRandomWall(wall[i]);
+			changeRandomWall(wall[i], lastWallPassed);
 			createTopWall(wall);
 		}
 	}

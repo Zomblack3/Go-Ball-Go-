@@ -19,9 +19,10 @@ namespace GoBallGo
 
 	Wall initWall();
 	void wallMovement(Wall& wall);
-	void changeRandomWall(Wall& wall);
+	void changeRandomWall(Wall& wall, int& lastWallPassed);
 	void wallPlayerCollision(Wall wall, Player& player);
-	void wallUpdate(Wall wall[]/*, Player& player*/);
+	void wallPlayerHasPass(Wall wall[], Player& player, int& lastWallPassed);
+	void wallUpdate(Wall wall[], int& lastWallPassed);
 	void createTopWall(Wall wall[]);
 	bool bottomWallTopWallCollision(Wall& wall1, Wall& wall2);
 	void drawWall(Wall wall[]);

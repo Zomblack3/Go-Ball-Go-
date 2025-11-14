@@ -66,9 +66,9 @@ namespace CreditsStructure
 		DrawText("Kenney", static_cast<int>((GoBallGo::screenWidth - (GoBallGo::screenWidth / 4.0f)) - (MeasureText("Kenney", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.5f) + 50.0f), GoBallGo::normalFontSize, WHITE);
 		DrawText("Canva AI", static_cast<int>((GoBallGo::screenWidth - (GoBallGo::screenWidth / 4.0f)) - (MeasureText("Canva AI", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.5f) + 100.0f), GoBallGo::normalFontSize, WHITE);
 
-		DrawRectangle(static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText("GAME DEVELOPERS", GoBallGo::titlesFontSize) / 2.0f)) - 15, static_cast<int>((GoBallGo::screenHeight / 2.0f)) - 25, MeasureText("GAME DEVELOPERS", GoBallGo::titlesFontSize) + 25, 125, DARKBLUE);
+		DrawRectangle(static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText("El Cyber de Mc Caco", GoBallGo::titlesFontSize) / 2.0f)) - 15, static_cast<int>((GoBallGo::screenHeight / 2.0f)) - 25, MeasureText("El Cyber de Mc Caco", GoBallGo::titlesFontSize) + 25, 125, DARKBLUE);
 
-		DrawText("GAME DEVELOPERS", static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText("GAME DEVELOPERS", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.0f)), GoBallGo::titlesFontSize, YELLOW);
+		DrawText("SOUND", static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText("SOUND", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.0f)), GoBallGo::titlesFontSize, YELLOW);
 		DrawText("El Cyber de Mc Caco", static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText("El Cyber de Mc Caco", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.0f) + 50.0f), GoBallGo::normalFontSize, WHITE);
 
 		DrawTexture(exitButton.texture, static_cast<int>(exitButton.x), static_cast<int>(exitButton.y), exitButton.buttonTint);

@@ -30,7 +30,7 @@ namespace GoBallGo
 	const float PLAYER_WIDTH = 45.0f;
 	const float PLAYER_HEIGHT = 45.0f;
 	const float MAX_JUMP_CICLES = 10.0f;
-	const float MAX_PLAYER_JUMP_FORCE = 500.0f;
+	const float MAX_PLAYER_JUMP_FORCE = 300.0f;
 
 	Player initPlayer();
 

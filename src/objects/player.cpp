@@ -41,12 +41,12 @@ namespace GoBallGo
 
 		if (player2.isActive && player2.isAlive)
 		{
-			if (IsKeyPressed(KEY_SPACE))
-				player.speedY = -player.jump * GetFrameTime();
+			if (IsKeyPressed(KEY_W))
+				player2.speedY = -player2.jump * GetFrameTime();
 			else
-				player.speedY += G_FORCE * GetFrameTime();
+				player2.speedY += G_FORCE * GetFrameTime();
 
-			player.y += player.speedY;
+			player2.y += player2.speedY;
 		}
 	}
 

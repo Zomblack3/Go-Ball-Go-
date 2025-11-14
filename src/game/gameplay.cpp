@@ -27,6 +27,8 @@ namespace GoBallGo
 		player.texture = LoadTexture("res/img/player.png");
 		player2.texture = LoadTexture("res/img/player.png");
 
+		int lastWallPassed = 0;
+
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 			wall[i] = initWall();
 
@@ -34,7 +36,7 @@ namespace GoBallGo
 
 		while (!WindowShouldClose() && player.isAlive)
 		{
-			GameplayStructure::update(currentScreen, player, player2, wall, backGround, midGround, foreGround, isMusicOn, wasMusicOn);
+			GameplayStructure::update(currentScreen, player, player2, wall, backGround, midGround, foreGround, isMusicOn, wasMusicOn, lastWallPassed);
 
 			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround);
 		}
@@ -108,7 +110,7 @@ namespace GameplayStructure
 		}
 	}
 
-	void update(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isMusicOn, bool& wasMusicOn)
+	void update(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isMusicOn, bool& wasMusicOn, int& lastWallPassed)
 	{
 		scrollingBack -= 10.0f * GetFrameTime();
 		scrollingMid -= 50.0f * GetFrameTime();
@@ -128,14 +130,19 @@ namespace GameplayStructure
 		if (player2.isActive)
 			GoBallGo::playerScreenCollision(player2);
 
-		GoBallGo::wallUpdate(wall);
-		GoBallGo::wallUpdate(wall);
+		GoBallGo::wallUpdate(wall, lastWallPassed);
 
 		for (int i = 0; i < GoBallGo::MAX_WALLS_IN_SCREEN; i++)
 		{
 			GoBallGo::wallPlayerCollision(wall[i], player);
 			GoBallGo::wallPlayerCollision(wall[i], player2);
 		}
+
+		if (player.isActive && player.isAlive)
+			GoBallGo::wallPlayerHasPass(wall, player, lastWallPassed);
+
+		if (player2.isActive && player2.isAlive)
+			GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed);
 
 		if (!player.isAlive || !player2.isAlive)
 		{
@@ -170,6 +177,14 @@ namespace GameplayStructure
 		if (player2.isActive && player2.isAlive)
 			DrawTexture(player2.texture, static_cast<int>(player2.x), static_cast<int>(player2.y), RED);
 		
+		if (player.isActive && !player2.isActive)
+			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
+		else
+		{
+			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
+			DrawText(TextFormat("%i", player2.points), static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
+		}
+
 		drawWall(wall);
 
 		EndDrawing();
