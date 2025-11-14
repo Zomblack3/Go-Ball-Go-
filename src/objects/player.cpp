@@ -32,25 +32,22 @@ namespace GoBallGo
 		if (player.isActive && player.isAlive)
 		{
 			if (IsKeyPressed(KEY_SPACE))
-				player.y -= player.jump * GetFrameTime();
+				player.speedY = -player.jump * GetFrameTime();
 			else
-				player.y += G_FORCE * GetFrameTime();
+				player.speedY += G_FORCE * GetFrameTime();
 
-			player.jump -= G_FORCE * GetFrameTime();
+			player.y += player.speedY;
 		}
 
 		if (player2.isActive && player2.isAlive)
 		{
-			if (IsKeyPressed(KEY_W))
-				player2.y -= player2.jump * GetFrameTime();
+			if (IsKeyPressed(KEY_SPACE))
+				player.speedY = -player.jump * GetFrameTime();
 			else
-				player2.y += G_FORCE * GetFrameTime();
+				player.speedY += G_FORCE * GetFrameTime();
 
-			player2.jump -= G_FORCE * GetFrameTime();
+			player.y += player.speedY;
 		}
-
-		playerClamp(player);
-		playerClamp(player2);
 	}
 
 	void playerScreenCollision(Player& player)
@@ -59,14 +56,5 @@ namespace GoBallGo
 			player.y = 0.0f;
 		if (player.y + player.h >= GetScreenHeight())
 			player.isAlive = false;
-	}
-
-	void playerClamp(Player& player)
-	{
-		if (player.jump <= MAX_PLAYER_JUMP_FORCE)
-			player.jump = MAX_PLAYER_JUMP_FORCE;
-
-		if (player.jump >= MAX_PLAYER_JUMP_FORCE)
-			player.jump = MAX_PLAYER_JUMP_FORCE;
 	}
 }

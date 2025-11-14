@@ -10,6 +10,7 @@ namespace GoBallGo
 		float y = 0.0f;
 		float h = 0.0f;
 		float w = 0.0f;
+		float speedY = 0.0f;
 		float jump = 0.0f;
 		float jumpCicles = 0.0f;
 
@@ -29,11 +30,10 @@ namespace GoBallGo
 	const float PLAYER_WIDTH = 45.0f;
 	const float PLAYER_HEIGHT = 45.0f;
 	const float MAX_JUMP_CICLES = 10.0f;
-	const float MAX_PLAYER_JUMP_FORCE = 150000.0f;
+	const float MAX_PLAYER_JUMP_FORCE = 500.0f;
 
 	Player initPlayer();
 
 	void playerMovment(Player& player, Player& player2);
 	void playerScreenCollision(Player& player);
-	void playerClamp(Player& player);
 }
