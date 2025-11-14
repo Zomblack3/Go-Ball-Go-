@@ -1,1 +1,1 @@
-xcopy res bin\Release /e /i /y
+xcopy res bin\Release\res /e /i /y
