@@ -27,6 +27,17 @@ namespace GoBallGo
 		}
 	}
 
+	void playGameMusic(Sound& music, bool isMusicOn)
+	{
+		if (!IsSoundPlaying(music))
+			PlaySound(music);
+
+		if (!isMusicOn)
+			PauseSound(music);
+		else
+			ResumeSound(music);
+	}
+
 	bool isMouseInButton(Vector2 mousePos, Button button)
 	{
 		if (mousePos.x >= button.x && mousePos.x <= button.x + button.w &&

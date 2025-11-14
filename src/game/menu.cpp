@@ -4,7 +4,7 @@
 
 namespace GoBallGo
 {
-	void menu(SCREENS& currentScreen)
+	void menu(SCREENS& currentScreen, Sound& music, bool& isMusicOn, bool& wasMusicOn)
 	{
 		Button playButton = initButton(screenWidth / 2.0f, screenHeight - (screenHeight / 1.5f), BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
 		Button creditsButton = initButton(screenWidth / 2.0f, screenHeight - (screenHeight / 2.0f), BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
@@ -21,9 +21,6 @@ namespace GoBallGo
 		playButton.texture = buttonsTexture;
 		creditsButton.texture = buttonsTexture;
 		exitButton.texture = buttonsTexture;
-		musicButton.texture = buttonActivated;
-
-		Sound music = LoadSound("res/audio/Mc_Caco_Boca_Yo_Te_Amo_Letra.wav");
 
 		playButton.x -= playButton.w / 2.0f;
 		creditsButton.x -= creditsButton.w / 2.0f;
@@ -33,28 +30,30 @@ namespace GoBallGo
 
 		while (!WindowShouldClose() && !playButton.isPressed && !creditsButton.isPressed && !exitButton.isPressed)
 		{
-			MenuStructure::update(currentScreen, mouse, playButton, creditsButton, exitButton, musicButton, buttonActivated, buttonDeactivated);
+			MenuStructure::update(currentScreen, mouse, playButton, creditsButton, exitButton, musicButton, buttonActivated, buttonDeactivated, isMusicOn, wasMusicOn);
+			
 			MenuStructure::draw(playButton, creditsButton, exitButton, musicButton, background, logo);
-			MenuStructure::playMenuSounds(music);
+			
+			playGameMusic(music, isMusicOn);
 		}
 
 		playButton.isPressed = false;
 		creditsButton.isPressed = false;
 
-		UnloadSound(music);
 		UnloadTexture(logo);
 		UnloadTexture(buttonsTexture);
+		UnloadTexture(buttonActivated);
+		UnloadTexture(buttonDeactivated);
 		UnloadTexture(playButton.texture);
 		UnloadTexture(creditsButton.texture);
 		UnloadTexture(exitButton.texture);
+		UnloadTexture(musicButton.texture);
 	}
 }
 
 namespace MenuStructure
 {
-	bool isMusicOn = true;
-
-	void update(SCREENS& currentScreen, Vector2& mouse, GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D buttonOn, Texture2D buttonOff)
+	void update(SCREENS& currentScreen, Vector2& mouse, GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D buttonOn, Texture2D buttonOff, bool& isMusicOn, bool& wasMusicOn)
 	{
 		mouse = GetMousePosition();
 
@@ -64,7 +63,13 @@ namespace MenuStructure
 		GoBallGo::mouseSelection(mouse, musicButton);
 
 		if (playButton.isPressed)
+		{
 			currentScreen = GAMEPLAY;
+
+			wasMusicOn = isMusicOn;
+
+			isMusicOn = false;
+		}
 
 		if (creditsButton.isPressed)
 			currentScreen = CREDITS;
@@ -75,16 +80,15 @@ namespace MenuStructure
 		if (musicButton.isPressed)
 		{
 			if (isMusicOn)
-			{
 				isMusicOn = false;
-				musicButton.texture = buttonOff;
-			}
 			else
-			{
 				isMusicOn = true;
-				musicButton.texture = buttonOn;
-			}
 		}
+
+		if (isMusicOn)
+			musicButton.texture = buttonOn;
+		else
+			musicButton.texture = buttonOff;
 	}
 
 	void draw(GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D background, Texture2D logo)
@@ -122,16 +126,5 @@ namespace MenuStructure
 		DrawText("Ver: 0.5", versionTextX, versionTextY, GoBallGo::normalFontSize, WHITE);
 
 		EndDrawing();
-	}
-
-	void playMenuSounds(Sound& music)
-	{
-		if (!IsSoundPlaying(music))
-			PlaySound(music);
-
-		if (!isMusicOn)
-			PauseSound(music);
-		else
-			ResumeSound(music);
 	}
 }
