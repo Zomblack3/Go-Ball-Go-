@@ -6,7 +6,7 @@
 
 namespace GoBallGo
 {
-	void gameplay(SCREENS& currentScreen)
+	void gameplay(SCREENS& currentScreen, bool& isMusicOn, bool& wasMusicOn)
 	{
 		Player player = initPlayer();
 		Player player2 = initPlayer();
@@ -34,7 +34,7 @@ namespace GoBallGo
 
 		while (!WindowShouldClose() && player.isAlive)
 		{
-			GameplayStructure::update(currentScreen, player, player2, wall, backGround, midGround, foreGround);
+			GameplayStructure::update(currentScreen, player, player2, wall, backGround, midGround, foreGround, isMusicOn, wasMusicOn);
 
 			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround);
 		}
@@ -63,6 +63,12 @@ namespace GameplayStructure
 	{
 		const int buttonsAmount = 2;
 
+		Texture2D background = LoadTexture("res/img/gameModeSelectionBackground.png");
+		Texture2D buttonsTexture = LoadTexture("res/img/button_rectangle_depth_gloss.png");
+
+		gameModeButtonSingleplayer.texture = buttonsTexture;
+		gameModeButtonMultiplayer.texture = buttonsTexture;
+
 		std::string buttonsTexts[buttonsAmount] = { "SINGLEPLAYER", "MULTIPLAYER" };
 
 		int buttonsTextsLenghts[buttonsAmount] = { };
@@ -90,17 +96,19 @@ namespace GameplayStructure
 
 			ClearBackground(DARKGREEN);
 
-			DrawRectangle(static_cast<int>(gameModeButtonSingleplayer.x), static_cast<int>(gameModeButtonSingleplayer.y), static_cast<int>(gameModeButtonSingleplayer.w), static_cast<int>(gameModeButtonSingleplayer.h), GREEN);
-			DrawRectangle(static_cast<int>(gameModeButtonMultiplayer.x), static_cast<int>(gameModeButtonMultiplayer.y), static_cast<int>(gameModeButtonMultiplayer.w), static_cast<int>(gameModeButtonMultiplayer.h), GREEN);
+			DrawTexture(background, 0, 0, WHITE);
 
-			DrawText(buttonsTexts[0].c_str(), static_cast<int>((gameModeButtonSingleplayer.x + gameModeButtonSingleplayer.w / 2.0f) - (buttonsTextsLenghts[0] / 2.0f)), static_cast<int>(gameModeButtonSingleplayer.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, BLACK);
-			DrawText(buttonsTexts[1].c_str(), static_cast<int>((gameModeButtonMultiplayer.x + gameModeButtonMultiplayer.w / 2.0f) - (buttonsTextsLenghts[1] / 2.0f)), static_cast<int>(gameModeButtonMultiplayer.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, BLACK);
+			DrawTexture(gameModeButtonSingleplayer.texture, static_cast<int>(gameModeButtonSingleplayer.x), static_cast<int>(gameModeButtonSingleplayer.y), gameModeButtonSingleplayer.buttonTint);
+			DrawTexture(gameModeButtonMultiplayer.texture, static_cast<int>(gameModeButtonMultiplayer.x), static_cast<int>(gameModeButtonMultiplayer.y), gameModeButtonMultiplayer.buttonTint);
+
+			DrawText(buttonsTexts[0].c_str(), static_cast<int>((gameModeButtonSingleplayer.x + gameModeButtonSingleplayer.w / 2.0f) - (buttonsTextsLenghts[0] / 2.0f)), static_cast<int>(gameModeButtonSingleplayer.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, gameModeButtonSingleplayer.textColor);
+			DrawText(buttonsTexts[1].c_str(), static_cast<int>((gameModeButtonMultiplayer.x + gameModeButtonMultiplayer.w / 2.0f) - (buttonsTextsLenghts[1] / 2.0f)), static_cast<int>(gameModeButtonMultiplayer.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, gameModeButtonMultiplayer.textColor);
 
 			EndDrawing();
 		}
 	}
 
-	void update(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround)
+	void update(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isMusicOn, bool& wasMusicOn)
 	{
 		scrollingBack -= 10.0f * GetFrameTime();
 		scrollingMid -= 50.0f * GetFrameTime();
@@ -120,8 +128,8 @@ namespace GameplayStructure
 		if (player2.isActive)
 			GoBallGo::playerScreenCollision(player2);
 
-		GoBallGo::wallUpdate(wall/*, player*/);
-		GoBallGo::wallUpdate(wall/*, player2*/);
+		GoBallGo::wallUpdate(wall);
+		GoBallGo::wallUpdate(wall);
 
 		for (int i = 0; i < GoBallGo::MAX_WALLS_IN_SCREEN; i++)
 		{
@@ -130,7 +138,11 @@ namespace GameplayStructure
 		}
 
 		if (!player.isAlive || !player2.isAlive)
+		{
 			currentScreen = MENU;
+
+			isMusicOn = wasMusicOn;
+		}
 	}
 
 	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround)
@@ -151,8 +163,6 @@ namespace GameplayStructure
 
 		DrawTextureEx(foreGround, { scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
-
-		//DrawRectangle(static_cast<int>(player.x), static_cast<int>(player.y), static_cast<int>(player.w), static_cast<int>(player.h), RED);
 
 		if (player.isActive && player.isAlive)
 			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);

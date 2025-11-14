@@ -11,9 +11,14 @@ namespace run
 	{
 		SCREENS currentScreen = MENU;
 
-		InitWindow(GoBallGo::screenWidth, GoBallGo::screenHeight, "Go! Ball Go!");
+		bool isMusicOn = true;
+		bool wasMusicOn = true;
+
+		InitWindow(GoBallGo::screenWidth, GoBallGo::screenHeight, "Go Ball Go!!");
 
 		InitAudioDevice();
+
+		Sound music = LoadSound("res/audio/Mc_Caco_Boca_Yo_Te_Amo_Letra.wav");
 
 		while (!WindowShouldClose())
 		{
@@ -21,17 +26,17 @@ namespace run
 			{
 			case MENU:
 
-				GoBallGo::menu(currentScreen);
+				GoBallGo::menu(currentScreen, music, isMusicOn, wasMusicOn);
 
 				break;
 			case GAMEPLAY:
 				
-				GoBallGo::gameplay(currentScreen);
+				GoBallGo::gameplay(currentScreen, isMusicOn, wasMusicOn);
 				
 				break;
 			case CREDITS:
 
-				GoBallGo::credits(currentScreen);
+				GoBallGo::credits(currentScreen, music, isMusicOn);
 				
 				break;
 			case EXIT:
@@ -43,6 +48,8 @@ namespace run
 				break;
 			}
 		}
+
+		UnloadSound(music);
 
 		CloseAudioDevice();
 	}
