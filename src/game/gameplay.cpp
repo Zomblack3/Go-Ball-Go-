@@ -23,7 +23,7 @@ namespace GoBallGo
 
 		Texture2D backGround = LoadTexture("res/img/pixel_art_gradas.png");
 		Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
-		Texture2D foreGround = LoadTexture("res/img/pixel_art_pasto.png");
+		Texture2D foreGround = LoadTexture("res/img/fore_ground.png");
 		player.texture = LoadTexture("res/img/player.png");
 		player2.texture = LoadTexture("res/img/player.png");
 
@@ -158,11 +158,11 @@ namespace GameplayStructure
 		DrawTextureEx(backGround, { scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(backGround, { backGround.width * 2 + scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
 
-		DrawTextureEx(midGround, { scrollingMid, 1000 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 1000 }, 0.0f, 2.0f, WHITE);
-
 		DrawTextureEx(foreGround, { scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(midGround, { scrollingMid, 50 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 50 }, 0.0f, 2.0f, WHITE);
 
 		if (player.isActive && player.isAlive)
 			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
