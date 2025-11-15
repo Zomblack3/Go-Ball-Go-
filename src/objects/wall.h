@@ -26,4 +26,5 @@ namespace GoBallGo
 	void createTopWall(Wall wall[]);
 	bool bottomWallTopWallCollision(Wall& wall1, Wall& wall2);
 	void drawWall(Wall wall[]);
+	void setWallDefault(Wall wall[]);
 }

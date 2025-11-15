@@ -91,4 +91,16 @@ namespace GoBallGo
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 			DrawRectangle(static_cast<int>(wall[i].x), static_cast<int>(wall[i].y), static_cast<int>(wall[i].w), static_cast<int>(wall[i].h), WHITE);
 	}
+
+	void setWallDefault(Wall wall[])
+	{
+		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
+		{
+			wall[i].x = static_cast<float>(GetScreenWidth());
+			wall[i].y = static_cast<float>(GetRandomValue(static_cast<int>(PLAYER_HEIGHT) * 2, GetScreenHeight()));
+			wall[i].h = static_cast<float>(GetScreenHeight());
+			wall[i].w = PLAYER_WIDTH / 1.5f;
+			wall[i].speedX = WALL_SPEED;
+		}
+	}
 }

@@ -24,6 +24,7 @@ namespace GoBallGo
 		Texture2D backGround = LoadTexture("res/img/pixel_art_gradas.png");
 		Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
 		Texture2D foreGround = LoadTexture("res/img/fore_ground.png");
+
 		player.texture = LoadTexture("res/img/player.png");
 		player2.texture = LoadTexture("res/img/player.png");
 
@@ -34,18 +35,20 @@ namespace GoBallGo
 
 		GameplayStructure::selectGameMode(player, player2, gameModeButtonSingleplayer, gameModeButtonMultiplayer, mouse);
 
-		while (!WindowShouldClose() && player.isAlive)
+		while (!WindowShouldClose() && !GameplayStructure::arePlayersDead(player, player2))
 		{
-			GameplayStructure::update(currentScreen, player, player2, wall, backGround, midGround, foreGround, isMusicOn, wasMusicOn, lastWallPassed);
+			GameplayStructure::update(player, player2, wall, backGround, midGround, foreGround, lastWallPassed);
 
 			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround);
 		}
+
+		GameplayStructure::endGameScreen(currentScreen, player, player2, wall, mouse, isMusicOn, wasMusicOn);
 
 		UnloadTexture(backGround);
 		UnloadTexture(midGround);
 		UnloadTexture(foreGround);
 		UnloadTexture(player.texture);
-		UnloadTexture(player.texture);
+		UnloadTexture(player2.texture);
 
 		player.isActive = false;
 		player2.isActive = false;
@@ -110,7 +113,7 @@ namespace GameplayStructure
 		}
 	}
 
-	void update(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isMusicOn, bool& wasMusicOn, int& lastWallPassed)
+	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed)
 	{
 		scrollingBack -= 10.0f * GetFrameTime();
 		scrollingMid -= 50.0f * GetFrameTime();
@@ -143,21 +146,10 @@ namespace GameplayStructure
 
 		if (player2.isActive && player2.isAlive)
 			GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed);
-
-		if (!player.isAlive || !player2.isAlive)
-		{
-			currentScreen = MENU;
-
-			isMusicOn = wasMusicOn;
-		}
 	}
 
 	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround)
 	{
-		Vector2 bgPos = { };
-		Vector2 mgPos = { };
-		Vector2 fgPos = { };
-
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
@@ -188,5 +180,96 @@ namespace GameplayStructure
 		drawWall(wall);
 
 		EndDrawing();
+	}
+
+	bool arePlayersDead(GoBallGo::Player player, GoBallGo::Player player2)
+	{
+		if (player.isActive && player2.isActive)
+		{
+			if (!player.isAlive && !player2.isAlive)
+				return true;
+		}
+		else 
+		{
+			if (!player.isAlive)
+				return true;
+		}
+
+		return false;
+	}
+
+	void endGameScreen(SCREENS& currentScreen, GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Vector2& mouse, bool& isMusicOn, bool& wasMusicOn)
+	{
+		Texture2D buttonsTexture = LoadTexture("res/img/button_rectangle_depth_gloss.png");
+		Texture2D backgroundOnePlayer = LoadTexture("res/img/endGameOnePlayerBackground.png");
+		Texture2D backgroundTwoPlayers = LoadTexture("res/img/endGameTwoPlayersBackground.png");
+
+		GoBallGo::Button replayButton = GoBallGo::initButton(((GoBallGo::screenWidth / 2.0f) - (GoBallGo::screenWidth / 4.0f)) - (GoBallGo::BUTTONS_WIDTH / 2.0f), GoBallGo::screenHeight - (GoBallGo::screenHeight / 8.0f), GoBallGo::BUTTONS_WIDTH, GoBallGo::BUTTONS_HEIGHT, false);
+		GoBallGo::Button exitButton = GoBallGo::initButton(((GoBallGo::screenWidth / 2.0f) + (GoBallGo::screenWidth / 4.0f)) - (GoBallGo::BUTTONS_WIDTH / 2.0f), GoBallGo::screenHeight - (GoBallGo::screenHeight / 8.0f), GoBallGo::BUTTONS_WIDTH, GoBallGo::BUTTONS_HEIGHT, false);
+
+		while (!replayButton.isPressed && !exitButton.isPressed)
+		{
+			mouse = GetMousePosition();
+
+			GoBallGo::mouseSelection(mouse, replayButton);
+			GoBallGo::mouseSelection(mouse, exitButton);
+
+			if (replayButton.isPressed)
+			{
+				if (player.isActive)
+					GoBallGo::setPlayerDefault(player);
+
+				if (player2.isActive)
+					GoBallGo::setPlayerDefault(player2);
+
+				GoBallGo::setWallDefault(wall);
+			}
+
+			if (exitButton.isPressed)
+			{
+				currentScreen = MENU;
+
+				isMusicOn = wasMusicOn;
+			}
+
+			BeginDrawing();
+
+			ClearBackground(DARKGREEN);
+
+			if (player.isActive && player2.isActive)
+			{
+				DrawTexture(backgroundTwoPlayers, 0, 0, WHITE);
+
+				DrawText("GAME OVER", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText("GAME OVER", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.0f) - 175), GoBallGo::titlesFontSize, YELLOW);
+
+				DrawText("Player 1", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (GoBallGo::screenWidth / 4.0f) - (MeasureText("Player 1", GoBallGo::normalFontSize) / 2.0f)) - 25, static_cast<int>(GoBallGo::screenHeight / 2.0f) - 75, GoBallGo::titlesFontSize, WHITE);
+				DrawText("Player 2", static_cast<int>((GoBallGo::screenWidth / 2.0f) + (GoBallGo::screenWidth / 4.0f) - (MeasureText("Player 2", GoBallGo::normalFontSize) / 2.0f)) - 15, static_cast<int>(GoBallGo::screenHeight / 2.0f) - 75, GoBallGo::titlesFontSize, WHITE);
+
+				DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) - (GoBallGo::screenWidth / 4.0f)) - 25, static_cast<int>(GoBallGo::screenHeight / 2.0f), 60, WHITE);
+				DrawText(TextFormat("%i", player2.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) + (GoBallGo::screenWidth / 4.0f)) - 15, static_cast<int>(GoBallGo::screenHeight / 2.0f), 60, WHITE);
+			}
+			else
+			{
+				DrawTexture(backgroundOnePlayer, 0, 0, WHITE);
+
+				DrawText("GAME OVER", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText("GAME OVER", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>((GoBallGo::screenHeight / 2.0f) - 175), GoBallGo::titlesFontSize, YELLOW);
+
+				DrawText("Player", static_cast<int>(GoBallGo::screenWidth / 2.0f - (MeasureText("Player", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>(GoBallGo::screenHeight / 2.0f) - 75, GoBallGo::titlesFontSize, WHITE);
+
+				DrawText(TextFormat("%i", player.points), static_cast<int>(GoBallGo::screenWidth / 2.0f - MeasureText(TextFormat("%i", player.points), 60) / 2.0f), static_cast<int>(GoBallGo::screenHeight / 2.0f) + 15, 60, WHITE);
+			}
+
+			DrawTexture(buttonsTexture, static_cast<int>(replayButton.x), static_cast<int>(replayButton.y), replayButton.buttonTint);
+			DrawTexture(buttonsTexture, static_cast<int>(exitButton.x), static_cast<int>(exitButton.y), exitButton.buttonTint);
+
+			DrawText("RESTART", static_cast<int>((replayButton.x + replayButton.w / 2.0f) - (MeasureText("RESTART", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>(replayButton.y + GoBallGo::normalFontSize) - 5, GoBallGo::normalFontSize, replayButton.textColor);
+			DrawText("GO TO MENU", static_cast<int>((exitButton.x + exitButton.w / 2.0f) - (MeasureText("GO TO MENU", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>(exitButton.y + GoBallGo::normalFontSize) - 5, GoBallGo::normalFontSize, exitButton.textColor);
+
+			EndDrawing();
+		}
+
+		UnloadTexture(buttonsTexture);
+		UnloadTexture(backgroundOnePlayer);
+		UnloadTexture(backgroundTwoPlayers);
 	}
 }

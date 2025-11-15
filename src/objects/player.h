@@ -36,4 +36,5 @@ namespace GoBallGo
 
 	void playerMovment(Player& player, Player& player2);
 	void playerScreenCollision(Player& player);
+	void setPlayerDefault(Player& player);
 }

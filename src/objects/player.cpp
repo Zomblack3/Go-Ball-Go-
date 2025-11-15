@@ -57,4 +57,16 @@ namespace GoBallGo
 		if (player.y + player.h >= GetScreenHeight())
 			player.isAlive = false;
 	}
+
+	void setPlayerDefault(Player& player)
+	{
+		player.x = static_cast<float>(screenWidth) / 8.0f;
+		player.y = static_cast<float>(screenHeight) / 2.0f;
+		player.w = PLAYER_WIDTH;
+		player.h = PLAYER_HEIGHT;
+		player.jump = MAX_PLAYER_JUMP_FORCE;
+		player.isAlive = true;
+		player.currentPlayerLives = MAX_PLAYER_POINTS;
+		player.points = 0;
+	}
 }

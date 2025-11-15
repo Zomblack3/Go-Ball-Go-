@@ -4,7 +4,7 @@
 
 namespace GoBallGo
 {
-	void menu(SCREENS& currentScreen, Sound& music, bool& isMusicOn, bool& wasMusicOn)
+	void menu(SCREENS& currentScreen, Sound& music, bool& isMusicOn, bool& wasMusicOn, Font font)
 	{
 		Button playButton = initButton(screenWidth / 2.0f, screenHeight - (screenHeight / 1.5f), BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
 		Button creditsButton = initButton(screenWidth / 2.0f, screenHeight - (screenHeight / 2.0f), BUTTONS_WIDTH, BUTTONS_HEIGHT, false);
@@ -32,7 +32,7 @@ namespace GoBallGo
 		{
 			MenuStructure::update(currentScreen, mouse, playButton, creditsButton, exitButton, musicButton, buttonActivated, buttonDeactivated, isMusicOn, wasMusicOn);
 			
-			MenuStructure::draw(playButton, creditsButton, exitButton, musicButton, background, logo);
+			MenuStructure::draw(playButton, creditsButton, exitButton, musicButton, background, logo, font);
 			
 			playGameMusic(music, isMusicOn);
 		}
@@ -91,7 +91,7 @@ namespace MenuStructure
 			musicButton.texture = buttonOff;
 	}
 
-	void draw(GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D background, Texture2D logo)
+	void draw(GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D background, Texture2D logo, Font font)
 	{
 		const int buttonsAmount = 3;
 		const int versionTextX = 10;
@@ -117,11 +117,11 @@ namespace MenuStructure
 		DrawTexture(creditsButton.texture, static_cast<int>(creditsButton.x), static_cast<int>(creditsButton.y), creditsButton.buttonTint);
 		DrawTexture(exitButton.texture, static_cast<int>(exitButton.x), static_cast<int>(exitButton.y), exitButton.buttonTint);
 
-		DrawText("Music", 50, static_cast<int>((GoBallGo::screenHeight / 2.0f) + 5), 20, YELLOW);
+		DrawTextEx(font, "Music", { 50, (GoBallGo::screenHeight / 2.0f) + 5 }, 20, 2, YELLOW);
 
-		DrawText(buttonsTexts[0].c_str(), static_cast<int>((playButton.x + playButton.w / 2.0f) - (buttonsTextsLenghts[0] / 2.0f)), static_cast<int>(playButton.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, playButton.textColor);
-		DrawText(buttonsTexts[1].c_str(), static_cast<int>((creditsButton.x + creditsButton.w / 2.0f) - (buttonsTextsLenghts[1] / 2.0f)), static_cast<int>(creditsButton.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, creditsButton.textColor);
-		DrawText(buttonsTexts[2].c_str(), static_cast<int>((exitButton.x + exitButton.w / 2.0f) - (buttonsTextsLenghts[2] / 2.0f)), static_cast<int>(exitButton.y + GoBallGo::normalFontSize - 5), GoBallGo::normalFontSize, exitButton.textColor);
+		DrawTextEx(font, buttonsTexts[0].c_str(), { (playButton.x + playButton.w / 2.0f) - (buttonsTextsLenghts[0] / 2.0f), playButton.y + GoBallGo::normalFontSize - 5 }, GoBallGo::normalFontSize, 2, playButton.textColor);
+		DrawTextEx(font, buttonsTexts[1].c_str(), { (creditsButton.x + creditsButton.w / 2.0f) - (buttonsTextsLenghts[1] / 2.0f), creditsButton.y + GoBallGo::normalFontSize - 5 }, GoBallGo::normalFontSize, 2, creditsButton.textColor);
+		DrawTextEx(font, buttonsTexts[2].c_str(), { (exitButton.x + exitButton.w / 2.0f) - (buttonsTextsLenghts[2] / 2.0f), exitButton.y + GoBallGo::normalFontSize - 5 }, GoBallGo::normalFontSize, 2, exitButton.textColor);
 
 		DrawText("Ver: 0.5", versionTextX, versionTextY, GoBallGo::normalFontSize, WHITE);
 
