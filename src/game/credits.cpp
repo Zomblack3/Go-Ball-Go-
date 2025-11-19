@@ -62,7 +62,7 @@ namespace CreditsStructure
 		// Texts
 		std::string gameDevCreditsTexts[gameDevCredits] = { "Juan Pablo 'Rushery' Pivetta", "Santiago Agustin 'Zomblack3' Britos" };
 		std::string artCreditsTexts[artCredits] = { "Juan Pablo 'Rushery' Pivetta", "Santiago Agustin 'Zomblack3' Britos", "Dmytro Aksonov (iStock) [Menu Background]", "Kenney [Buttons textures]", "Canva AI [Logo]" };
-		std::string soundCreditsTexts[soundCredits] = { "El Cyber de Mc Caco [Menu music]", "Tribuna Xeneize (Youtube) [Gameplay music]", "felix.blume (Freesound) [Score sound]", "Musheran (Pixabay) [Buttons Sound]", "Robinhood76 (Freesound) [End game sound]"};
+		std::string soundCreditsTexts[soundCredits] = { "El Cyber de Mc Caco [Menu music]", "Tribuna Xeneize (Youtube) [Gameplay music]", "lagerstedt1993 (Freesound) [Score sound]", "Musheran (Pixabay) [Buttons Sound]", "Robinhood76 (Freesound) [End game sound]"};
 		//
 
 		// Longer text of Game Dev
