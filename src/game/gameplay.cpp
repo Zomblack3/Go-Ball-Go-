@@ -21,8 +21,8 @@ namespace GoBallGo
 		gameModeButtonSingleplayer.x -= gameModeButtonSingleplayer.w / 2.0f;
 		gameModeButtonMultiplayer.x -= gameModeButtonMultiplayer.w / 2.0f;
 
-		Texture2D backGround = LoadTexture("res/img/pixel_art_gradas.png");
-		Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
+		Texture2D backGround = LoadTexture("res/img/back_ground.png");
+		Texture2D midGround = LoadTexture("res/img/mid_ground.png");
 		Texture2D foreGround = LoadTexture("res/img/fore_ground.png");
 
 		Sound music = LoadSound("res/audio/gameplay_music.mp3");
