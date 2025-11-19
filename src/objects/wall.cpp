@@ -33,14 +33,18 @@ namespace GoBallGo
 		}
 	}
 
-	void wallPlayerCollision(Wall wall, Player& player)
+	void wallPlayerCollision(Wall wall, Player& player, Sound deathSound)
 	{
 		if (wall.x + wall.w >= player.x && wall.x <= player.x + player.w &&
 			wall.y + wall.h >= player.y && wall.y <= player.y + player.h)
+		{
 			player.isAlive = false;
+
+  			PlaySound(deathSound);
+		}
 	}
 
-	void wallPlayerHasPass(Wall wall[], Player& player, int& lastWallPassed)
+	void wallPlayerHasPass(Wall wall[], Player& player, int& lastWallPassed, Sound scoreSound)
 	{
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 		{
@@ -49,7 +53,10 @@ namespace GoBallGo
 				if (player.x > wall[i].x)
 				{
 					player.points++;
+
 					lastWallPassed = i;
+					
+					PlaySound(scoreSound);
 				}
 			}
 		}

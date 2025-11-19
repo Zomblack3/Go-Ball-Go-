@@ -11,7 +11,11 @@ namespace GoBallGo
 		float w;
 		float h;
 
+		int soundTimesPlayed = 0;
+
 		Texture2D texture = { };
+
+		Sound changeStateSound = { };
 
 		Color buttonTint = WHITE;
 		Color textColor = WHITE;

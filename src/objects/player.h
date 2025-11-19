@@ -34,7 +34,7 @@ namespace GoBallGo
 
 	Player initPlayer();
 
-	void playerMovment(Player& player, Player& player2);
+	void playerMovment(Player& player, Player& player2, Sound jumpSound);
 	void playerScreenCollision(Player& player);
 	void setPlayerDefault(Player& player);
 }

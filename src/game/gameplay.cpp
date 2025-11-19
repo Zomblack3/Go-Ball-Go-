@@ -6,7 +6,7 @@
 
 namespace GoBallGo
 {
-	void gameplay(SCREENS& currentScreen, bool& isMusicOn, bool& wasMusicOn)
+	void gameplay(SCREENS& currentScreen, bool& isMusicOn, bool& wasMusicOn, bool& isGameplayMusicOn)
 	{
 		Player player = initPlayer();
 		Player player2 = initPlayer();
@@ -25,8 +25,18 @@ namespace GoBallGo
 		Texture2D midGround = LoadTexture("res/img/pixel_art_corners.png");
 		Texture2D foreGround = LoadTexture("res/img/fore_ground.png");
 
+		Sound music = LoadSound("res/audio/gameplay_music.mp3");
+		Sound jumpSound = LoadSound("res/audio/player_jumping.wav");
+		Sound scoreSound = LoadSound("res/audio/score.wav");
+		Sound buttonsChangeStateSound = LoadSound("res/audio/button_sound.wav");
+		Sound deathSound = LoadSound("res/audio/dead_sound.mp3");
+		Sound endGameSound = LoadSound("res/audio/end_game_sound.wav");
+
 		player.texture = LoadTexture("res/img/player.png");
 		player2.texture = LoadTexture("res/img/player.png");
+
+		gameModeButtonSingleplayer.changeStateSound = buttonsChangeStateSound;
+		gameModeButtonMultiplayer.changeStateSound = buttonsChangeStateSound;
 
 		int lastWallPassed = 0;
 
@@ -37,10 +47,24 @@ namespace GoBallGo
 
 		while (!WindowShouldClose() && !GameplayStructure::arePlayersDead(player, player2))
 		{
-			GameplayStructure::update(player, player2, wall, backGround, midGround, foreGround, lastWallPassed);
+			if (!IsSoundPlaying(music) && isGameplayMusicOn)
+				PlaySound(music);
+
+			GameplayStructure::update(player, player2, wall, backGround, midGround, foreGround, lastWallPassed, jumpSound, scoreSound, deathSound);
 
 			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround);
 		}
+
+		if (IsSoundPlaying(music))
+			PauseSound(music);
+
+		if (IsSoundPlaying(jumpSound))
+			PauseSound(jumpSound);
+
+		if (IsSoundPlaying(scoreSound))
+			PauseSound(scoreSound);
+
+		PlaySound(endGameSound);
 
 		GameplayStructure::endGameScreen(currentScreen, player, player2, wall, mouse, isMusicOn, wasMusicOn);
 
@@ -49,11 +73,17 @@ namespace GoBallGo
 		UnloadTexture(foreGround);
 		UnloadTexture(player.texture);
 		UnloadTexture(player2.texture);
+		
+		UnloadSound(jumpSound);
+		UnloadSound(music);
+		UnloadSound(scoreSound);
+		UnloadSound(buttonsChangeStateSound);
+		UnloadSound(deathSound);
 
 		player.isActive = false;
-		player2.isActive = false;
-
 		player.isAlive = true;
+
+		player2.isActive = false;
 		player2.isAlive = true;
 	}
 }
@@ -113,11 +143,11 @@ namespace GameplayStructure
 		}
 	}
 
-	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed)
+	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound)
 	{
-		scrollingBack -= 10.0f * GetFrameTime();
+		scrollingBack -= 50.0f * GetFrameTime();
 		scrollingMid -= 50.0f * GetFrameTime();
-		scrollingFore -= 100.0f * GetFrameTime();
+		scrollingFore -= 250.0f * GetFrameTime();
 
 		if (scrollingBack <= -backGround.width * 2)
 			scrollingBack = 0;
@@ -126,7 +156,7 @@ namespace GameplayStructure
 		if (scrollingFore <= -foreGround.width * 2)
 			scrollingFore = 0;
 
-		GoBallGo::playerMovment(player, player2);
+		GoBallGo::playerMovment(player, player2, jumpSound);
 
 		GoBallGo::playerScreenCollision(player);
 
@@ -137,15 +167,15 @@ namespace GameplayStructure
 
 		for (int i = 0; i < GoBallGo::MAX_WALLS_IN_SCREEN; i++)
 		{
-			GoBallGo::wallPlayerCollision(wall[i], player);
-			GoBallGo::wallPlayerCollision(wall[i], player2);
+			GoBallGo::wallPlayerCollision(wall[i], player, deathSound);
+			GoBallGo::wallPlayerCollision(wall[i], player2, deathSound);
 		}
 
 		if (player.isActive && player.isAlive)
-			GoBallGo::wallPlayerHasPass(wall, player, lastWallPassed);
+			GoBallGo::wallPlayerHasPass(wall, player, lastWallPassed, scoreSound);
 
 		if (player2.isActive && player2.isAlive)
-			GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed);
+			GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed, scoreSound);
 	}
 
 	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround)
@@ -154,14 +184,14 @@ namespace GameplayStructure
 
 		ClearBackground(DARKGREEN);
 
-		DrawTextureEx(backGround, { scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(backGround, { backGround.width * 2 + scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(backGround, { scrollingBack, -325 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(backGround, { backGround.width * 2 + scrollingBack, -325 }, 0.0f, 2.0f, WHITE);
+
+		DrawTextureEx(midGround, { scrollingMid, 445 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 445 }, 0.0f, 2.0f, WHITE);
 
 		DrawTextureEx(foreGround, { scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
-
-		DrawTextureEx(midGround, { scrollingMid, 50 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 50 }, 0.0f, 2.0f, WHITE);
 
 		if (player.isActive && player.isAlive)
 			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);

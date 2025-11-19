@@ -27,14 +27,23 @@ namespace GoBallGo
 		return player;
 	}
 
-	void playerMovment(Player& player, Player& player2)
+	void playerMovment(Player& player, Player& player2, Sound jumpSound)
 	{
 		if (player.isActive && player.isAlive)
 		{
 			if (IsKeyPressed(KEY_SPACE))
+			{
 				player.speedY = -player.jump * GetFrameTime();
+
+				if (!IsSoundPlaying(jumpSound))
+					PlaySound(jumpSound);
+			}
 			else
+			{
 				player.speedY += G_FORCE * GetFrameTime();
+
+				std::cout << player.speedY << std::endl;
+			}
 
 			player.y += player.speedY;
 		}
@@ -42,7 +51,12 @@ namespace GoBallGo
 		if (player2.isActive && player2.isAlive)
 		{
 			if (IsKeyPressed(KEY_W))
+			{
 				player2.speedY = -player2.jump * GetFrameTime();
+
+				if (!IsSoundPlaying(jumpSound))
+					PlaySound(jumpSound);
+			}
 			else
 				player2.speedY += G_FORCE * GetFrameTime();
 

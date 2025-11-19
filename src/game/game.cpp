@@ -11,7 +11,8 @@ namespace run
 	{
 		SCREENS currentScreen = MENU;
 
-		bool isMusicOn = true;
+		bool isMenuMusicOn = true;
+		bool isGameplayMusicOn = true;
 		bool wasMusicOn = true;
 
 		InitWindow(GoBallGo::screenWidth, GoBallGo::screenHeight, "Go Ball Go!!");
@@ -28,17 +29,17 @@ namespace run
 			{
 			case MENU:
 
-				GoBallGo::menu(currentScreen, music, isMusicOn, wasMusicOn, font);
+				GoBallGo::menu(currentScreen, music, isMenuMusicOn, wasMusicOn, font, isGameplayMusicOn);
 
 				break;
 			case GAMEPLAY:
 				
-				GoBallGo::gameplay(currentScreen, isMusicOn, wasMusicOn);
+				GoBallGo::gameplay(currentScreen, isMenuMusicOn, wasMusicOn, isGameplayMusicOn);
 				
 				break;
 			case CREDITS:
 
-				GoBallGo::credits(currentScreen, music, isMusicOn);
+				GoBallGo::credits(currentScreen, music, isMenuMusicOn);
 				
 				break;
 			case EXIT:

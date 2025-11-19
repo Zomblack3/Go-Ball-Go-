@@ -9,8 +9,11 @@ namespace GoBallGo
 		Texture2D background = LoadTexture("res/img/creditsBackground.png");
 		Texture2D buttonsTexture = LoadTexture("res/img/button_rectangle_depth_gloss.png");
 
+		Sound buttonsChangeStateSound = LoadSound("res/audio/button_sound.wav");
+
 		exitButton.x -= exitButton.w / 2.0f;
 		exitButton.texture = buttonsTexture;
+		exitButton.changeStateSound = buttonsChangeStateSound;
 
 		Vector2 mouse = { };
 
@@ -28,6 +31,8 @@ namespace GoBallGo
 		UnloadTexture(background);
 		UnloadTexture(buttonsTexture);
 		UnloadTexture(exitButton.texture);
+
+		UnloadSound(buttonsChangeStateSound);
 	}
 }
 

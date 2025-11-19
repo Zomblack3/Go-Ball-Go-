@@ -10,6 +10,14 @@ namespace GoBallGo
 	{
 		if (isMouseInButton(mousePos, button))
 		{
+			if (button.soundTimesPlayed < 1)
+			{
+				if (!IsSoundPlaying(button.changeStateSound))
+					PlaySound(button.changeStateSound);
+
+				button.soundTimesPlayed++;
+			}
+
 			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				button.isPressed = true;
 			else
@@ -21,6 +29,8 @@ namespace GoBallGo
 		}
 		else
 		{
+			button.soundTimesPlayed = 0;
+
 			button.buttonTint = SKYBLUE;
 
 			button.textColor = WHITE;
