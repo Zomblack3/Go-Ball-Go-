@@ -79,6 +79,7 @@ namespace GoBallGo
 		UnloadSound(scoreSound);
 		UnloadSound(buttonsChangeStateSound);
 		UnloadSound(deathSound);
+		UnloadSound(endGameSound);
 
 		player.isActive = false;
 		player.isAlive = true;
