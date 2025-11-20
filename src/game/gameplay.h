@@ -15,8 +15,8 @@ namespace GameplayStructure
 {
 	void selectGameMode(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Button gameModeButtonSingleplayer, GoBallGo::Button gameModeButtonMultiplayer, Vector2& mouse);
 	
-	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound, bool& isPauseOn, GoBallGo::Button& resumeGameplayButton, GoBallGo::Button& returnMenuGameplayButton, Vector2& mouse);
-	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isPauseOn, GoBallGo::Button resumeGameplayButton, GoBallGo::Button returnMenuGameplayButton);
+	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound, bool& isPauseOn, GoBallGo::Button& resumeGameplayButton, GoBallGo::Button& returnMenuGameplayButton, Vector2& mouse, bool& hasStarted);
+	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isPauseOn, GoBallGo::Button resumeGameplayButton, GoBallGo::Button returnMenuGameplayButton, bool hasStarted, Texture2D scoreboard);
 	
 	bool arePlayersDead(GoBallGo::Player player, GoBallGo::Player player2);
 	

@@ -33,11 +33,13 @@ namespace GoBallGo
 
 		Texture2D buttonsTexture = LoadTexture("res/img/button_rectangle_depth_gloss.png");
 
+		Texture2D scoreboardTexture = LoadTexture("res/img/gameplay_scoreboard.png");
+
 		Sound music = LoadSound("res/audio/gameplay_music.mp3");
 		Sound jumpSound = LoadSound("res/audio/player_jumping.wav");
 		Sound scoreSound = LoadSound("res/audio/score.wav");
 		Sound buttonsChangeStateSound = LoadSound("res/audio/button_sound.wav");
-		Sound deathSound = LoadSound("res/audio/dead_sound.mp3");
+		Sound deathSound = LoadSound("res/audio/death_sound.mp3");
 		Sound endGameSound = LoadSound("res/audio/end_game_sound.wav");
 
 		player.texture = LoadTexture("res/img/player.png");
@@ -58,6 +60,7 @@ namespace GoBallGo
 		int lastWallPassed = 0;
 
 		bool isPauseOn = false;
+		bool gameplayHasStarted = false;
 
 		for (int i = 0; i < MAX_WALLS_IN_SCREEN; i++)
 			wall[i] = initWall();
@@ -69,9 +72,9 @@ namespace GoBallGo
 			if (!IsSoundPlaying(music) && isGameplayMusicOn)
 				PlaySound(music);
 
-			GameplayStructure::update(player, player2, wall, backGround, midGround, foreGround, lastWallPassed, jumpSound, scoreSound, deathSound, isPauseOn, resumeGameplayButton, returnMenuButton, mouse);
+			GameplayStructure::update(player, player2, wall, backGround, midGround, foreGround, lastWallPassed, jumpSound, scoreSound, deathSound, isPauseOn, resumeGameplayButton, returnMenuButton, mouse, gameplayHasStarted);
 
-			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround, isPauseOn, resumeGameplayButton, returnMenuButton);
+			GameplayStructure::draw(player, player2, wall, backGround, midGround, foreGround, isPauseOn, resumeGameplayButton, returnMenuButton, gameplayHasStarted, scoreboardTexture);
 		}
 
 		if (IsSoundPlaying(music))
@@ -167,44 +170,52 @@ namespace GameplayStructure
 		}
 	}
 
-	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound, bool& isPauseOn, GoBallGo::Button& resumeGameplayButton, GoBallGo::Button& returnMenuButton, Vector2& mouse)
+	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound, bool& isPauseOn, GoBallGo::Button& resumeGameplayButton, GoBallGo::Button& returnMenuButton, Vector2& mouse, bool& gameplayHasStarted)
 	{
 		if (!isPauseOn)
 		{
-			scrollingBack -= 50.0f * GetFrameTime();
-			scrollingMid -= 50.0f * GetFrameTime();
-			scrollingFore -= 250.0f * GetFrameTime();
-
-			if (scrollingBack <= -backGround.width * 2)
-				scrollingBack = 0;
-			if (scrollingMid <= -midGround.width * 2)
-				scrollingMid = 0;
-			if (scrollingFore <= -foreGround.width * 2)
-				scrollingFore = 0;
-
-			GoBallGo::playerMovment(player, player2, jumpSound);
-
-			GoBallGo::playerScreenCollision(player);
-
-			if (player2.isActive)
-				GoBallGo::playerScreenCollision(player2);
-
-			GoBallGo::wallUpdate(wall, lastWallPassed);
-
-			for (int i = 0; i < GoBallGo::MAX_WALLS_IN_SCREEN; i++)
+			if (gameplayHasStarted)
 			{
-				GoBallGo::wallPlayerCollision(wall[i], player, deathSound);
-				GoBallGo::wallPlayerCollision(wall[i], player2, deathSound);
+				scrollingBack -= 50.0f * GetFrameTime();
+				scrollingMid -= 50.0f * GetFrameTime();
+				scrollingFore -= 250.0f * GetFrameTime();
+
+				if (scrollingBack <= -backGround.width * 2)
+					scrollingBack = 0;
+				if (scrollingMid <= -midGround.width * 2)
+					scrollingMid = 0;
+				if (scrollingFore <= -foreGround.width * 2)
+					scrollingFore = 0;
+
+				GoBallGo::playerMovment(player, player2, jumpSound);
+
+				GoBallGo::playerScreenCollision(player);
+
+				if (player2.isActive)
+					GoBallGo::playerScreenCollision(player2);
+
+				GoBallGo::wallUpdate(wall, lastWallPassed);
+
+				for (int i = 0; i < GoBallGo::MAX_WALLS_IN_SCREEN; i++)
+				{
+					GoBallGo::wallPlayerCollision(wall[i], player, deathSound);
+					GoBallGo::wallPlayerCollision(wall[i], player2, deathSound);
+				}
+
+				if (player.isActive && player.isAlive)
+					GoBallGo::wallPlayerHasPass(wall, player, lastWallPassed, scoreSound);
+
+				if (player2.isActive && player2.isAlive)
+					GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed, scoreSound);
+
+				if (IsKeyPressed(KEY_P))
+					isPauseOn = true;
 			}
-
-			if (player.isActive && player.isAlive)
-				GoBallGo::wallPlayerHasPass(wall, player, lastWallPassed, scoreSound);
-
-			if (player2.isActive && player2.isAlive)
-				GoBallGo::wallPlayerHasPass(wall, player2, lastWallPassed, scoreSound);
-
-			if (IsKeyPressed(KEY_P))
-				isPauseOn = true;
+			else
+			{
+				if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_W))
+					gameplayHasStarted = true;
+			}
 		}
 		else
 		{
@@ -223,7 +234,7 @@ namespace GameplayStructure
 
 	}
 
-	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isPauseOn, GoBallGo::Button resumeGameplayButton, GoBallGo::Button returnMenuButton)
+	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isPauseOn, GoBallGo::Button resumeGameplayButton, GoBallGo::Button returnMenuButton, bool gameplayHasStarted, Texture2D scoreboard)
 	{
 		BeginDrawing();
 
@@ -244,12 +255,25 @@ namespace GameplayStructure
 		if (player2.isActive && player2.isAlive)
 			DrawTexture(player2.texture, static_cast<int>(player2.x), static_cast<int>(player2.y), RED);
 		
+		if (!gameplayHasStarted)
+		{
+			DrawRectangle((GoBallGo::screenWidth / 2) - ((MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) + 20) / 2), (GoBallGo::screenHeight / 2) - 15, MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) + 20, GoBallGo::titlesFontSize + 20, DARKBLUE);
+			DrawText("Press SPACE / W to start", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) / 2.0f)), GoBallGo::screenHeight / 2, GoBallGo::titlesFontSize, YELLOW);
+		}
+
 		if (player.isActive && !player2.isActive)
-			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
+		{
+			DrawTexture(scoreboard, (GoBallGo::screenWidth / 2) - (scoreboard.width / 2), 90, WHITE);
+
+			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, YELLOW);
+		}
 		else
 		{
-			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
-			DrawText(TextFormat("%i", player2.points), static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, WHITE);
+			DrawTexture(scoreboard, static_cast<int>((GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f)), 90, WHITE);
+			DrawTexture(scoreboard, static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f)), 90, WHITE);
+
+			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, YELLOW);
+			DrawText(TextFormat("%i", player2.points), static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player2.points), 30) / 2.0f)), 100, 30, YELLOW);
 		}
 
 		drawWall(wall);
