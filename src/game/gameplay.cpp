@@ -172,13 +172,17 @@ namespace GameplayStructure
 
 	void update(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, int& lastWallPassed, Sound jumpSound, Sound scoreSound, Sound deathSound, bool& isPauseOn, GoBallGo::Button& resumeGameplayButton, GoBallGo::Button& returnMenuButton, Vector2& mouse, bool& gameplayHasStarted)
 	{
+		const float scrollingBackSpeed = 50.0f;
+		const float scrollingMidSpeed = 50.0f;
+		const float scrollingForeSpeed = 250.0f;
+
 		if (!isPauseOn)
 		{
 			if (gameplayHasStarted)
 			{
-				scrollingBack -= 50.0f * GetFrameTime();
-				scrollingMid -= 50.0f * GetFrameTime();
-				scrollingFore -= 250.0f * GetFrameTime();
+				scrollingBack -= scrollingBackSpeed * GetFrameTime();
+				scrollingMid -= scrollingMidSpeed * GetFrameTime();
+				scrollingFore -= scrollingForeSpeed * GetFrameTime();
 
 				if (scrollingBack <= -backGround.width * 2)
 					scrollingBack = 0;
