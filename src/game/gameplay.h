@@ -8,7 +8,7 @@ namespace GoBallGo
 {
 	void gameplay(SCREENS& currentScreen, bool& isMusicOn, bool& wasMusicOn, bool& isGameplayMusicOn);
 
-	const float G_FORCE = 0.3f;
+	const float G_FORCE = 0.000001f;
 }
 
 namespace GameplayStructure

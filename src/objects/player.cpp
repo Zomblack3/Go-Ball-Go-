@@ -33,16 +33,16 @@ namespace GoBallGo
 		{
 			if (IsKeyPressed(KEY_SPACE))
 			{
-				player.speedY = -player.jump * GetFrameTime();
+				player.speedY = -player.jump * /*GetFrameTime()*/ PLAYER_WEIGHT;
 
 				if (!IsSoundPlaying(jumpSound))
 					PlaySound(jumpSound);
+
+				std::cout << GetFrameTime() << std::endl;
 			}
 			else
 			{
-				player.speedY += G_FORCE * GetFrameTime();
-
-				std::cout << player.speedY << std::endl;
+				player.speedY += G_FORCE * /*GetFrameTime()*/ PLAYER_WEIGHT;
 			}
 
 			player.y += player.speedY;
