@@ -236,18 +236,88 @@ namespace GameplayStructure
 
 	void draw(GoBallGo::Player& player, GoBallGo::Player& player2, GoBallGo::Wall wall[], Texture2D& backGround, Texture2D& midGround, Texture2D& foreGround, bool& isPauseOn, GoBallGo::Button resumeGameplayButton, GoBallGo::Button returnMenuButton, bool gameplayHasStarted, Texture2D scoreboard)
 	{
+		// Variables ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/* Parallax */
+		Vector2 backGroundPos1 = { scrollingBack, -325 };
+		Vector2 backGroundPos2 = { backGround.width * 2 + scrollingBack, -325 };
+
+		Vector2 midGroundPos1 = { scrollingMid, 445 };
+		Vector2 midGroundPos2 = { midGround.width * 2 + scrollingMid, 445 };
+
+		Vector2 foreGroundPos1 = { scrollingFore, 70 };
+		Vector2 foreGroundPos2 = { foreGround.width * 2 + scrollingFore, 70 };
+		/* Parallax */
+
+		/* Scoreboard */
+		std::string startingText = "Press SPACE / W to start";
+		std::string playerOnePoints = TextFormat("%i", player.points);
+		std::string playerTwoPoints = TextFormat("%i", player2.points);
+
+		const int pointTextSize = 30;
+
+		Vector2 playerOnePos1 = { (GoBallGo::screenWidth / 2.0f) - (MeasureText(playerOnePoints.c_str(), pointTextSize) / 2.0f), 100 };
+		Vector2 playerOnePos2 = { (GoBallGo::screenWidth / 4.0f) - (MeasureText(playerOnePoints.c_str(), pointTextSize) / 2.0f), 100 };
+		Vector2 playerTwoPos = { (GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (MeasureText(playerTwoPoints.c_str(), pointTextSize) / 2.0f), 100 };
+
+		Vector2 scoreboardPosOne = { static_cast<float>((GoBallGo::screenWidth / 2) - (scoreboard.width / 2)), 90.0f };
+		Vector2 scoreboardPosTwo = { (GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f), 90.0f };
+		Vector2 scoreboardPosThree = { (GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f), 90.0f };
+		/* Scoreboard */
+
+		/* Starting Text */
+		const int startingTextLenght = MeasureText(startingText.c_str(), GoBallGo::titlesFontSize);
+		const int startingTextPosX = static_cast<int>((GoBallGo::screenWidth / 2.0f) - (startingTextLenght / 2.0f));
+		const int startingTextPosY = GoBallGo::screenHeight / 2;
+
+		Rectangle startingRec = { };
+
+		startingRec.x = static_cast<float>((GoBallGo::screenWidth / 2) - (startingTextLenght + 20) / 2);
+		startingRec.y = static_cast<float>((GoBallGo::screenHeight / 2) - 15);
+		startingRec.width = static_cast<float>(startingTextLenght + 20);
+		startingRec.height = static_cast<float>(GoBallGo::titlesFontSize + 20);
+		/* Starting Text */
+
+		/* Pause */
+		std::string pauseText = "PAUSE";
+
+		const int pauseTextLenght = MeasureText("PAUSE", GoBallGo::titlesFontSize);
+
+		Vector2 pausePos = { (GoBallGo::screenWidth / 2.0f) - (pauseTextLenght / 2.0f), resumeGameplayButton.y + GoBallGo::titlesFontSize + 85.0f };
+
+		Rectangle pauseRec = { };
+
+		pauseRec.x = static_cast<float>((GoBallGo::screenWidth / 2) - ((GoBallGo::BUTTONS_WIDTH + 25) / 2));
+		pauseRec.y = resumeGameplayButton.y + GoBallGo::normalFontSize - 100.0f;
+		pauseRec.width = GoBallGo::BUTTONS_WIDTH + 25;
+		pauseRec.height = GoBallGo::BUTTONS_HEIGHT * 4;
+
+		std::string resumeText = "RESUME";
+		std::string goToMenuText = "GO TO MENU";
+
+		const int resumeTextLenght = MeasureText("RESUME", GoBallGo::normalFontSize);
+		const int goToMenuTextLenght = MeasureText("GO TO MENU", GoBallGo::normalFontSize);
+
+		Vector2 resumePos = { (resumeGameplayButton.x + resumeGameplayButton.w / 2.0f) - (resumeTextLenght / 2.0f), resumeGameplayButton.y + GoBallGo::normalFontSize - 5.0f };
+		Vector2 goToMenuPos = { (returnMenuButton.x + returnMenuButton.w / 2.0f) - (goToMenuTextLenght / 2.0f), returnMenuButton.y + GoBallGo::normalFontSize - 5.0f };
+		/* Pause */
+
+		const float texturesScale = 2.0f;
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Draw ////////////////////////////////////////////////////////////////////////////////////////////////////////
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
 
-		DrawTextureEx(backGround, { scrollingBack, -325 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(backGround, { backGround.width * 2 + scrollingBack, -325 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(backGround, backGroundPos1, 0.0f, texturesScale, WHITE);
+		DrawTextureEx(backGround, backGroundPos2, 0.0f, texturesScale, WHITE);
 
-		DrawTextureEx(midGround, { scrollingMid, 445 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(midGround, { midGround.width * 2 + scrollingMid, 445 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(midGround, midGroundPos1, 0.0f, texturesScale, WHITE);
+		DrawTextureEx(midGround, midGroundPos2, 0.0f, texturesScale, WHITE);
 
-		DrawTextureEx(foreGround, { scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
-		DrawTextureEx(foreGround, { foreGround.width * 2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
+		DrawTextureEx(foreGround, foreGroundPos1, 0.0f, texturesScale, WHITE);
+		DrawTextureEx(foreGround, foreGroundPos2, 0.0f, texturesScale, WHITE);
 
 		if (player.isActive && player.isAlive)
 			DrawTexture(player.texture, static_cast<int>(player.x), static_cast<int>(player.y), WHITE);
@@ -257,41 +327,42 @@ namespace GameplayStructure
 		
 		if (!gameplayHasStarted)
 		{
-			DrawRectangle((GoBallGo::screenWidth / 2) - ((MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) + 20) / 2), (GoBallGo::screenHeight / 2) - 15, MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) + 20, GoBallGo::titlesFontSize + 20, DARKBLUE);
-			DrawText("Press SPACE / W to start", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText("Press SPACE / W to start", GoBallGo::titlesFontSize) / 2.0f)), GoBallGo::screenHeight / 2, GoBallGo::titlesFontSize, YELLOW);
+			DrawRectangleRec(startingRec, DARKBLUE);
+			DrawText(startingText.c_str(), startingTextPosX, startingTextPosY, GoBallGo::titlesFontSize, YELLOW);
 		}
 
 		if (player.isActive && !player2.isActive)
 		{
-			DrawTexture(scoreboard, (GoBallGo::screenWidth / 2) - (scoreboard.width / 2), 90, WHITE);
+			DrawTexture(scoreboard, static_cast<int>(scoreboardPosOne.x), static_cast<int>(scoreboardPosOne.y), WHITE);
 
-			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, YELLOW);
+			DrawText(playerOnePoints.c_str(), static_cast<int>(playerOnePos1.x), static_cast<int>(playerOnePos1.y), pointTextSize, YELLOW);
 		}
 		else
 		{
-			DrawTexture(scoreboard, static_cast<int>((GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f)), 90, WHITE);
-			DrawTexture(scoreboard, static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (scoreboard.width / 2.0f)), 90, WHITE);
+			DrawTexture(scoreboard, static_cast<int>(scoreboardPosTwo.x), static_cast<int>(scoreboardPosTwo.y), WHITE);
+			DrawTexture(scoreboard, static_cast<int>(scoreboardPosThree.x), static_cast<int>(scoreboardPosThree.y), WHITE);
 
-			DrawText(TextFormat("%i", player.points), static_cast<int>((GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player.points), 30) / 2.0f)), 100, 30, YELLOW);
-			DrawText(TextFormat("%i", player2.points), static_cast<int>((GoBallGo::screenWidth / 2.0f + GoBallGo::screenWidth / 4.0f) - (MeasureText(TextFormat("%i", player2.points), 30) / 2.0f)), 100, 30, YELLOW);
+			DrawText(playerOnePoints.c_str(), static_cast<int>(playerOnePos2.x), static_cast<int>(playerOnePos2.y), pointTextSize, YELLOW);
+			DrawText(playerTwoPoints.c_str(), static_cast<int>(playerTwoPos.x), static_cast<int>(playerTwoPos.y), pointTextSize, YELLOW);
 		}
 
 		drawWall(wall);
 
 		if (isPauseOn)
 		{
-			DrawRectangle((GoBallGo::screenWidth / 2) - ((GoBallGo::BUTTONS_WIDTH + 25) / 2), static_cast<int>(resumeGameplayButton.y + GoBallGo::normalFontSize) - 100, GoBallGo::BUTTONS_WIDTH + 25, GoBallGo::BUTTONS_HEIGHT * 4, DARKBLUE);
+			DrawRectangleRec(pauseRec, DARKBLUE);
 
-			DrawText("PAUSE", static_cast<int>((GoBallGo::screenWidth / 2.0f) - (MeasureText("PAUSE", GoBallGo::titlesFontSize) / 2.0f)), static_cast<int>(resumeGameplayButton.y + GoBallGo::titlesFontSize) - 85, GoBallGo::titlesFontSize, YELLOW);
+			DrawText(pauseText.c_str(), static_cast<int>(pausePos.x), static_cast<int>(pausePos.y), GoBallGo::titlesFontSize, YELLOW);
 
 			DrawTexture(resumeGameplayButton.texture, static_cast<int>(resumeGameplayButton.x), static_cast<int>(resumeGameplayButton.y), resumeGameplayButton.buttonTint);
 			DrawTexture(returnMenuButton.texture, static_cast<int>(returnMenuButton.x), static_cast<int>(returnMenuButton.y), returnMenuButton.buttonTint);
 
-			DrawText("RESUME", static_cast<int>((resumeGameplayButton.x + resumeGameplayButton.w / 2.0f) - (MeasureText("RESUME", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>(resumeGameplayButton.y + GoBallGo::normalFontSize) - 5, GoBallGo::normalFontSize, resumeGameplayButton.textColor);
-			DrawText("GO TO MENU", static_cast<int>((returnMenuButton.x + returnMenuButton.w / 2.0f) - (MeasureText("GO TO MENU", GoBallGo::normalFontSize) / 2.0f)), static_cast<int>(returnMenuButton.y + GoBallGo::normalFontSize) - 5, GoBallGo::normalFontSize, returnMenuButton.textColor);
+			DrawText(resumeText.c_str(), static_cast<int>(resumePos.x), static_cast<int>(resumePos.y), GoBallGo::normalFontSize, resumeGameplayButton.textColor);
+			DrawText(goToMenuText.c_str(), static_cast<int>(goToMenuPos.x), static_cast<int>(goToMenuPos.y), GoBallGo::normalFontSize, returnMenuButton.textColor);
 		}
 
 		EndDrawing();
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
 	bool arePlayersDead(GoBallGo::Player player, GoBallGo::Player player2)
