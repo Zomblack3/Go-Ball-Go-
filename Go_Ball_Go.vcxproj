@@ -23,6 +23,7 @@
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\game\gameplay.cpp" />
     <ClCompile Include="src\game\menu.cpp" />
+    <ClCompile Include="src\game\tutorial.cpp" />
     <ClCompile Include="src\game\windowManagment.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\objects\buttons.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\game\gameplay.h" />
     <ClInclude Include="src\game\menu.h" />
+    <ClInclude Include="src\game\tutorial.h" />
     <ClInclude Include="src\game\windowManagment.h" />
     <ClInclude Include="src\objects\buttons.h" />
     <ClInclude Include="src\objects\player.h" />

@@ -11,6 +11,6 @@ namespace GoBallGo
 
 namespace MenuStructure
 {
-	void update(SCREENS& currentScreen, Vector2& Mouse, GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D buttonOn, Texture2D buttonOff, bool& isMusicOn, bool& wasMusicOn, bool& isGameplayMusicOn, GoBallGo::Button& gameplayMusicButton);
-	void draw(GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& musicButton, Texture2D background, Texture2D logo, Font font, GoBallGo::Button gameplayMusicButton);
+	void update(SCREENS& currentScreen, Vector2& Mouse, GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& tutorialButton, GoBallGo::Button& musicButton, Texture2D buttonOn, Texture2D buttonOff, bool& isMusicOn, bool& wasMusicOn, bool& isGameplayMusicOn, GoBallGo::Button& gameplayMusicButton);
+	void draw(GoBallGo::Button& playButton, GoBallGo::Button& creditsButton, GoBallGo::Button& exitButton, GoBallGo::Button& tutorialButton, GoBallGo::Button& musicButton, Texture2D background, Texture2D logo, Font font, GoBallGo::Button gameplayMusicButton);
 }

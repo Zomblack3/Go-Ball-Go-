@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "gameplay.h"
 #include "credits.h"
+#include "tutorial.h"
 
 namespace run
 {
@@ -41,6 +42,11 @@ namespace run
 
 				GoBallGo::credits(currentScreen, music, isMenuMusicOn);
 				
+				break;
+			case TUTORIAL:
+
+				GoBallGo::tutorial(currentScreen, music, isMenuMusicOn);
+
 				break;
 			case EXIT:
 

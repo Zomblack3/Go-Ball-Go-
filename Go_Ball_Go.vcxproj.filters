@@ -54,6 +54,9 @@
     <ClCompile Include="src\game\game.cpp">
       <Filter>Resource Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\tutorial.cpp">
+      <Filter>Resource Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\objects\player.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="src\game\game.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\tutorial.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ enum SCREENS
 	MENU,
 	GAMEPLAY,
 	CREDITS,
+	TUTORIAL,
 	EXIT
 };
 
