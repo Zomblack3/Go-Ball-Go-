@@ -30,7 +30,7 @@ namespace run
 			{
 			case MENU:
 
-				GoBallGo::menu(currentScreen, music, isMenuMusicOn, wasMusicOn, font, isGameplayMusicOn);
+				GoBallGo::menu(currentScreen, music, isMenuMusicOn, wasMusicOn, isGameplayMusicOn);
 
 				break;
 			case GAMEPLAY:
