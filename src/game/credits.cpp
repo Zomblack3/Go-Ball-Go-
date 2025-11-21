@@ -67,34 +67,76 @@ namespace CreditsStructure
 			currentScreen = MENU;
 
 		if (gameDevURLRec[0].isPressed || artURLRec[0].isPressed)
+		{
 			OpenURL("https://github.com/RusheryRL");
 
+			gameDevURLRec[0].isPressed = false;
+			artURLRec[0].isPressed = false;
+		}
+
 		if (gameDevURLRec[1].isPressed || artURLRec[1].isPressed)
+		{
 			OpenURL("https://github.com/Zomblack3");
 
+			gameDevURLRec[1].isPressed = false;
+			artURLRec[1].isPressed = false;
+		}
+
 		if (artURLRec[2].isPressed)
+		{
 			OpenURL("https://www.istockphoto.com/es/foto/ventiladores-en-el-estadio-gm470755388-63142783?searchscope=image%2Cfilm");
 
+			artURLRec[2].isPressed = false;
+		}
+
 		if (artURLRec[3].isPressed)
+		{
 			OpenURL("https://kenney.nl/assets/ui-pack");
 
+			artURLRec[3].isPressed = false;
+		}
+
 		if (artURLRec[4].isPressed)
+		{
 			OpenURL("https://www.canva.com/dream-lab");
 
+			artURLRec[4].isPressed = false;
+		}
+
 		if (soundURLRec[0].isPressed)
+		{
 			OpenURL("https://youtu.be/8LvxqcSFfd4?si=OWUyFlYaLp5modCT");
 
+			soundURLRec[0].isPressed = false;
+		}
+
 		if (soundURLRec[1].isPressed)
+		{
 			OpenURL("https://youtu.be/sazhlY67UZw?si=2grR5qdrgCGoGWvT");
 
+			soundURLRec[1].isPressed = false;
+		}
+
 		if (soundURLRec[2].isPressed)
+		{
 			OpenURL("https://freesound.org/people/lagerstedt1993/sounds/733383");
 
+			soundURLRec[2].isPressed = false;
+		}
+
 		if (soundURLRec[3].isPressed)
+		{
 			OpenURL("https://pixabay.com/sound-effects/beep-313342");
 
+			soundURLRec[3].isPressed = false;
+		}
+
 		if (soundURLRec[4].isPressed)
+		{
 			OpenURL("https://freesound.org/people/Robinhood76/sounds/692545");
+
+			soundURLRec[4].isPressed = false;
+		}
 	}
 
 	void draw(GoBallGo::Button exitButton, Texture2D background, GoBallGo::Button gameDevURLRec[], GoBallGo::Button artURLRec[], GoBallGo::Button soundURLRec[])
