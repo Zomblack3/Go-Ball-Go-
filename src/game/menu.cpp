@@ -167,14 +167,6 @@ namespace MenuStructure
 		DrawTexture(tutorialButton.texture, static_cast<int>(tutorialButton.x), static_cast<int>(tutorialButton.y), tutorialButton.buttonTint);
 		DrawTexture(exitButton.texture, static_cast<int>(exitButton.x), static_cast<int>(exitButton.y), exitButton.buttonTint);
 
-		/*DrawTextEx(font, "Menu music", menuMusicButtonTextPos, GoBallGo::normalFontSize, 2, YELLOW);
-		DrawTextEx(font, "Gameplay music", gameplayMusicButtonTextPos, GoBallGo::normalFontSize, 2, YELLOW);
-
-		DrawTextEx(font, buttonsTexts[0].c_str(), playButtonTextPos, GoBallGo::normalFontSize, 2, playButton.textColor);
-		DrawTextEx(font, buttonsTexts[1].c_str(), creditsButtonTextPos, GoBallGo::normalFontSize, 2, creditsButton.textColor);
-		DrawTextEx(font, buttonsTexts[2].c_str(), tutorialButtonTextPos, GoBallGo::normalFontSize, 2, tutorialButton.textColor);
-		DrawTextEx(font, buttonsTexts[3].c_str(), exitButtonTextPos, GoBallGo::normalFontSize, 2, exitButton.textColor);*/
-
 		DrawText("Menu music", static_cast<int>(menuMusicButtonTextPos.x), static_cast<int>(menuMusicButtonTextPos.y), GoBallGo::normalFontSize, YELLOW);
 		DrawText("Gameplay music", static_cast<int>(gameplayMusicButtonTextPos.x), static_cast<int>(gameplayMusicButtonTextPos.y), GoBallGo::normalFontSize, YELLOW);
 
