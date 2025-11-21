@@ -243,6 +243,8 @@ namespace GameplayStructure
 		// Variables ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/* Parallax */
+		const float texturesScale = 2.0f;
+
 		Vector2 backGroundPos1 = { scrollingBack, -325 };
 		Vector2 backGroundPos2 = { backGround.width * 2 + scrollingBack, -325 };
 
@@ -306,7 +308,6 @@ namespace GameplayStructure
 		Vector2 goToMenuPos = { (returnMenuButton.x + returnMenuButton.w / 2.0f) - (goToMenuTextLenght / 2.0f), returnMenuButton.y + GoBallGo::normalFontSize - 5.0f };
 		/* Pause */
 
-		const float texturesScale = 2.0f;
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// Draw ////////////////////////////////////////////////////////////////////////////////////////////////////////
