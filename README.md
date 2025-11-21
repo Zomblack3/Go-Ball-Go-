@@ -1,1 +1,1 @@
-Flappy Bird By Juan Pablo Pivetta
+Flappy Bird By Juan Pablo Pivetta and Santiago Britos
