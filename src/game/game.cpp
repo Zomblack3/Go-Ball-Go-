@@ -22,8 +22,6 @@ namespace run
 
 		Sound music = LoadSound("res/audio/Mc_Caco_Boca_Yo_Te_Amo_Letra.wav");
 
-		Font font = LoadFontEx("res/font/Jersey10_Regular.ttf", GoBallGo::normalFontSize, 0, 250);
-
 		while (!WindowShouldClose())
 		{
 			switch (currentScreen)
@@ -59,7 +57,6 @@ namespace run
 		}
 
 		UnloadSound(music);
-		UnloadFont(font);
 
 		CloseAudioDevice();
 	}
